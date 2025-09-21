@@ -11,3 +11,20 @@ pipeline {
                 sh 'npm install' 
             }
         }
+         stage('Build Code') {
+            steps {
+                sh 'npm run build'
+            }
+        }
+        stage('Test Code') {
+            steps {
+                sh 'npm test'
+            }
+        }
+        stage('Deploy to Render') {
+            steps {
+                sh 'curl -X POST "$RENDER_DEPLOY_URL?key=$RENDER_DEPLOY_KEY"'
+            }
+        }
+    }
+}
