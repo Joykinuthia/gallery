@@ -6,3 +6,8 @@ pipeline {
                 git branch: 'master', url: 'https://github.com/Joykinuthia/gallery.git'
             }
         }
+         stage('Install Dependencies') {
+            steps {
+                sh 'npm install' 
+            }
+        }
