@@ -44,6 +44,7 @@ views/
 - **Jenkinsfile**: CI/CD pipeline for building, testing, and deploying the app.
 
 
+
 ## Setup Instructions
 
 1. **Clone the repository**
@@ -57,15 +58,33 @@ views/
   npm install
   ```
 
-3. **Configure MongoDB**
-  - By default, the app connects to a local MongoDB instance (`mongodb://localhost:27017/darkroom`).
-  - For production, update credentials in [`_config.js`](./_config.js).
+3. **Set up MongoDB Atlas**
+  - Go to [MongoDB Atlas](https://www.mongodb.com/cloud/atlas/register) and create a free account.
+  - Create a new cluster and wait for it to be provisioned.
+  - Go to **Database Access** and add a new database user (save the username and password).
+  - Go to **Network Access** and whitelist your IP address (or use `0.0.0.0` for development).
+  - Go to **Clusters > Connect > Connect your application** and copy the connection string.
+  - Update [`_config.js`](./_config.js) with your connection string:
+    ```js
+    var config = {};
+    config.mongoURI = {
+     production: 'mongodb+srv://<username>:<password>@<cluster>.mongodb.net/darkroom?retryWrites=true&w=majority',
+     // ...other environments...
+    };
+    module.exports = config;
+    ```
+    Replace `<username>`, `<password>`, and `<cluster>` with your Atlas details.
 
 4. **Run the server locally**
   ```sh
-  node server.js
+  npm start
   ```
   The app will be available at [http://localhost:5000](http://localhost:5000).
+
+5. **Troubleshooting**
+  - If you see `ENOTFOUND` errors, double-check your cluster name and connection string.
+  - Make sure your IP is whitelisted in Atlas.
+  - Ensure your cluster is running and accessible.
 
 ## Deployment on Render
 
